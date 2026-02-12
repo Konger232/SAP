@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <style>
+        body {
+            font-family:Arial, Helvetica, sans-serif;
+            display:grid;
+            place-items:center;
+        }
+        .main {
+            /* display:contents;
+            justify-content:center;
+            width:fit-content;
+            align-items:center; */
+            width:fit-content;
+            padding:40px;
+            background-color:#efefef;
+            box-sizing:border-box;
+        }
+        h1 {
+            text-align: center;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+        .tileGroup {
+            text-align:center;
+            width:auto;
+            display:grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+        }
+        .tile {
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            width:100px; height:100px;
+            box-sizing:border-box;
+            margin:5px;
+            border:1px solid #999;
+            font-size:48px;
+            text-decoration: none;
+            color: #000;            
+        }
+        .tile:hover {
+            background-color: #f59504;
+        }
+
+        #rule, #turn {
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size:small;
+            color:#999;
+            margin:20px 10px 20px 10px;
+            text-align:center;
+        }
+        button#start {
+            display:block;
+            margin:5px;
+            padding:10px 20px 10px 20px;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div class="main">
+        <h1>Tic Tac Toe Game</h1>
+        <div id="turn">X's Turn</div>
+        <div class="tileGroup">
+            <div class="tile"></div>
+            <div class="tile">X</div>
+            <div class="tile">X</div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile">0</div>
+        </div> 
+        <button id="start">Start Game</button>
+        <div id="rule">
+            Click here for the Wikepedia page for
+            <a href="https://en.wikipedia.org/wiki/Tic-tac-toe" target="_blank">Tic Tac Toe</a>.
+        </div>
+    </div>
+    
+    
+</body>
+</html>
