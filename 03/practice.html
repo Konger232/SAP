@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice</title>
+    
+</head>
+<body>
+    <div id="main">
+        <ul id="table">
+            <script>
+                function timesTable (x) {
+                    const MAX_NUM = 12
+                    for (i=1; i<=MAX_NUM; i++) {
+                        let answer = x * i
+                        document.write("<li>" + x + " * " + i + " = " + answer + "</li>")
+                    }      
+
+                }
+
+                let userInput = prompt("Enter a number:")
+                let result = timesTable(userInput)
+
+            </script>
+        </ul>
+    </div>
+    
+</body>
+</html>
