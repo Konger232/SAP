@@ -24,6 +24,21 @@
 
             </script>
         </ul>
+        <!-- TEMPERATURE -->
+        <div id="temperature">
+            <script>
+                function fahr2cels(ftemp) {
+                    //Temperature in degrees Celsius (°C) = (Temperature in degrees Fahrenheit (°F) - 32) * 5/9
+                    let ctemp = (ftemp - 32) * 5/9
+                    return ctemp
+                }
+
+                let userInputTemp = prompt("Enter temperature in Fahrenheit:")
+                let resultTemp = fahr2cels(userInputTemp)
+
+                document.write(resultTemp)
+            </script>
+        </div>
     </div>
     
 </body>
