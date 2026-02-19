@@ -8,38 +8,62 @@
 </head>
 <body>
     <div id="main">
+        <h3>Time Table</h3>
         <ul id="table">
-            <script>
-                function timesTable (x) {
-                    const MAX_NUM = 12
-                    for (i=1; i<=MAX_NUM; i++) {
-                        let answer = x * i
-                        document.write("<li>" + x + " * " + i + " = " + answer + "</li>")
-                    }      
-
-                }
-
-                let userInput = prompt("Enter a number:")
-                let result = timesTable(userInput)
-
-            </script>
+            <!-- TIMES TABLE -->
         </ul>
         <!-- TEMPERATURE -->
         <div id="temperature">
-            <script>
-                function fahr2cels(ftemp) {
-                    //Temperature in degrees Celsius (°C) = (Temperature in degrees Fahrenheit (°F) - 32) * 5/9
-                    let ctemp = (ftemp - 32) * 5/9
-                    return ctemp
-                }
-
-                let userInputTemp = prompt("Enter temperature in Fahrenheit:")
-                let resultTemp = fahr2cels(userInputTemp)
-
-                document.write(resultTemp)
-            </script>
+            <h3>Temperature Conversion</h3>
+            <form method="post">
+                <label for="fahrenheit">Fahrenheit:</label>
+                <input type="number" id="fahrenheit" />
+                <br />
+                <label for="celsius">Celsius:</label>
+                <label id="celsius"></label> 
+                <br/>
+                <input type="button" id="convertButton" value="Convert" />
+            </form>
         </div>
     </div>
-    
+    <script>
+        // Time table display
+        function timesTable ( x ) {
+            const MAX_NUM = 12
+            let listItems = ""
+            
+            if (x === null || isNaN(x)) {
+                alert("You must enter a number")
+            }
+            
+            for (i=1; i<=MAX_NUM; i++) {
+                let answer = x * i
+                listItems += "<li>" + x + " * " + i + " = " + answer + "</li>"                
+            }
+            document.getElementById("table").innerHTML = listItems   
+        }
+
+        let userInput = prompt("Enter a number:")
+        let result = timesTable(userInput)
+ 
+        // Temperature Conversion °C = (°F - 32) * 5/9
+        function fahr2cels(ftemp) {
+            if (!isNaN(ftemp)) {
+                let ctemp = (parseFloat(ftemp) - 32) * 5 / 9
+                cOUTPUT.innerText = ctemp.toFixed(2)
+            } else {
+                cOUTPUT.innerText = 0    
+            }
+        }
+
+        let fINPUT = document.getElementById("fahrenheit")
+        let cOUTPUT = document.getElementById("celsius")
+
+        // Event listener to detact the button click event
+        document.getElementById("convertButton").addEventListener("click", () => {
+            fahr2cels(fINPUT.value)
+        })
+
+    </script>
 </body>
 </html>
