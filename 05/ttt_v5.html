@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <style>
+        body {
+            font-family:Arial, Helvetica, sans-serif;
+            display:grid;
+            place-items:center;
+        }
+        .main {
+            /* display:contents;
+            justify-content:center;
+            width:fit-content;
+            align-items:center; */
+            width:fit-content;
+            padding:40px;
+            background-color:#efefef;
+            box-sizing:border-box;
+        }
+        h1 {
+            text-align: center;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+        .tileGroup {
+            text-align:center;
+            width:auto;
+            display:grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+        }
+        .square {
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            width:100px; height:100px;
+            box-sizing:border-box;
+            margin:5px;
+            border:1px solid #999;
+            font-size:48px;
+            text-decoration: none;
+            color: #000;            
+        }
+        .square:hover {
+            background-color: #f59504;
+        }
+
+        #rule, #turn {
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size:small;
+            color:#333232;
+            margin:20px 5px 20px 5px;
+            padding:5px;
+            text-align:center;
+            border:1px solid #999;
+        }
+
+        .stalemate {
+            background-color: #ddd;
+            color:#333;
+        } 
+
+        .winner {
+            background-color:#f59504;
+            color: white;
+        }
+        
+        .status {
+            background-color:#efefef;
+        }
+
+        button#start {
+            display:block;
+            margin:5px;
+            padding:10px 20px 10px 20px;
+        }
+    </style>
+    <script>
+        const NUM_SQUARES = 9;
+        var moves = new Array(9).fill("-");
+        var isActive = true;
+
+        window.onload = function() {
+
+            reset();
+            
+            // Wire in the reset function to the onclick event handler
+            document.getElementById("start").onclick = reset;
+
+            // Wire in the squareHandler to all squares
+            for (let i=0; i<NUM_SQUARES; i++)
+                document.getElementById("sq" + i).onclick = squareHandler;
+            
+        }
+
+        function squareHandler()
+        {
+            // Stops all future clicks
+            if (!isActive) 
+                return;
+
+            var tile = document.getElementById(this.id);
+            var number = tile.id.slice(2);
+
+            if (tile.innerHTML == "")
+            {
+                tile.innerHTML = turn;
+                // Updates moves
+                moves[number] = turn;
+                
+                var winner = checkWinConditions();
+
+                // No winner. continue the game
+                if (winner == "") {                         
+                    turn = (turn == "X") ? "O" : "X";
+                    turnDiv.innerHTML = turn + "'s Turn";
+                } 
+                // stalemate. stop the game
+                else if (winner == "stalemate") {          
+                    turnDiv.className = "stalemate";
+                    turnDiv.innerHTML = "Game over! Stalemate!";
+                    isActive = false;
+                } 
+                else { // Announce the winner. stop the game
+                    turnDiv.className = "winner";
+                    turnDiv.innerHTML = winner + " wins!";  
+                    isActive = false;
+                }
+                //console.log("Square Handler : " + moves);
+            } 
+        }
+
+        function reset() {
+            // Randomly determine whose's turn X or O 
+            turn = parseInt(Math.random() * 2) % 2 == 1 ? "X" : "O";  
+            // console.log(turn); 
+            turnDiv = document.getElementById("turn");
+            turnDiv.innerHTML = turn + "'s Turn";
+
+            // Reset game status, moves and status div
+            isActive = true;
+            moves.fill("-");
+            turnDiv.className = "status";
+            
+            // Clear the tiles
+            var tiles = document.querySelectorAll(".square");
+            tiles.forEach(element => {
+                    element.innerHTML = "";
+            });
+            
+            // console.log("current moves : "  + moves);
+            // console.log("Game status :" + isActive);
+        }
+
+        function checkWinConditions() {
+            var winner = "";
+            var winConditions = [
+                moves[0] + moves[1] + moves[2],  // 1st row 
+                moves[3] + moves[4] + moves[5],  // 2nd row
+                moves[6] + moves[7] + moves[8],  // 3rd row
+                moves[0] + moves[3] + moves[6],  // 1st col
+                moves[1] + moves[4] + moves[7],  // 2nd col
+                moves[2] + moves[5] + moves[8],  // 3nd col
+                moves[0] + moves[4] + moves[8],  // 1st diagional
+                moves[2] + moves[4] + moves[6],  // 2nd diagional
+            ];
+            //console.log("Win conditions =>" + winConditions);
+            return winConditions.includes("XXX") ? "X" :     // X wins
+                   winConditions.includes("OOO") ? "O" :    // O wins
+                   !moves.includes("-") ? "stalemate" :     // All tiles checked
+                   "";                                      // no winner yet    
+            
+        }
+
+    </script>
+</head>
+<body>
+    
+    <div class="main">
+        <h1>Tic Tac Toe Game</h1>
+        <div id="turn"></div>
+        <div class="tileGroup">
+            <script>
+                for (let i=0; i<NUM_SQUARES; i++)
+                {
+                    id = "sq"+i;
+                    document.write( "<div class='square' id='" + id + "'></div>" );
+                }
+            </script>
+        </div> 
+        <button id="start" type="button">Start Game</button>
+        <div id="rule">
+            Click here for the Wikepedia page for
+            <a href="https://en.wikipedia.org/wiki/Tic-tac-toe" target="_blank">Tic Tac Toe</a>.
+        </div>
+    </div>
+</body>
+</html>
