@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joe's Hotdogs</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size:medium;
+            margin:20px;
+        }
+        .table { 
+            display: grid; 
+            grid-template-columns: repeat(3, 150px);
+        }
+        .header {
+            font-weight: 200;
+            border-bottom: 2px solid #999;
+            background-color:rgb(247, 202, 65);
+            padding:10px 5px 10px 5px;
+        }
+        .cell {
+            background-color:rgb(238, 238, 241);
+            padding:10px 5px 10px 5px;
+            border-bottom: 2px solid #d7d6d6;
+        }
+        .list {
+            margin:10px 10px 20px 10px;           
+        }
+        #cart {
+            display: none;
+            /* padding: 20px; */
+            /* background-color: #efefef;*/
+            margin:10px 0px 10px 5px; 
+        }
+
+        #menuForm {
+            margin:10px;
+        }
+    
+        select {
+            padding:5px 10px;
+            margin: 5px 10px;
+        }
+
+        input {
+            height:40px;
+            border: 1px solid #999;
+            border-radius: 8px;
+            padding: 5px 20px 5px 20px;
+            background-color: rgb(247, 202, 65);
+            font-size: small;
+            font-weight:200
+            
+        }
+    </style>
+</head>
+<body>
+    <script>
+
+        window.onload = function() {
+            
+            displayMenu(menu3);
+ 
+            // Add to Cart onclick to update the shopping card
+            document.getElementById("add").onclick = updateCard;
+
+            // Check out onclick event
+            document.getElementById("checkout").onclick = checkout;
+
+            // Reset onclick event
+            document.getElementById("reset").onclick = reset;
+
+        } // End of window.onload
+     
+        document.write("<h3>Joe's Hotdogs (Class)</h3>");
+
+        // Class Declaration
+        function Item( name, price, quantity) {
+            this.name = name;
+            this.price = price;
+            this.quantity = quantity;
+        } // End of Item Class Function
+        
+        let menu3 = [
+            new Item("hotdogs", 4, 0),
+            new Item("fries", 3.50, 0),
+            new Item("soda", 1.50, 0),
+            new Item("sauerkraut", 1, 0)
+        ]
+
+        // List the menu items
+        document.write ('<h3>Menu</h3>');
+        menu3.forEach(
+            (item) => {
+                document.write('<div class="list">');
+                document.write('<b>' + item.name.toUpperCase() + '</b>: $' + item.price);
+                document.write('</div>');
+            }
+        )// End of Foreach
+            
+
+        function displayMenu(menu) {
+            var str = "";
+            menu.forEach(
+                (item) => {
+                    str += '<option data-item="' + item.name + '" '
+                        //+ 'data-qty="' + item.quantity + '" '  
+                        + 'value="' + item.price + '">' 
+                        + item.name.toUpperCase() 
+                        +'</option>';
+                }
+            )
+            document.getElementById("items").innerHTML = str;
+
+        } // End of ShowSelect
+
+        function updateCard() {
+            var menu = document.getElementById("items");
+            var option = menu.options[menu.selectedIndex];
+            var index = menu.selectedIndex;
+
+            var name = option.dataset.item;
+            var price = menu.value;
+            
+            // Update quantity
+            menu3[index].quantity++;
+
+            // Display the shopping cart <div>
+            document.getElementById("cart").style.display = "block";
+
+            // Update Qty only if the row existed already 
+            // Querying for the data-set attribute ex. data-item-hotdogs
+            rowRef = document.querySelector('[data-item-' + name  + ']');
+            
+            if ( rowRef ) {
+                rowRef.innerHTML = menu3[index].quantity;
+            } else {
+                document.getElementById("selected").innerHTML += '<div class="cell">' + name.toUpperCase() + '</div>'
+                + '<div class="cell">$' + price + '</div>' 
+                + '<div class="cell" data-item-'+ name +'="'+ name +'"">' + menu3[index].quantity + '</div>';
+            }
+
+            console.log(menu3);
+           
+        } // End of updateCard function
+
+        function checkout() {
+            
+            let total = 0;
+            let message = 'Order Summary: \n\n';
+
+            menu3.forEach(
+                (item) => {
+                    let subtotal = item.quantity * item.price;
+
+                    if (item.quantity > 0) {
+                        total += subtotal;
+                        message += item.quantity + 'x    ' + item.name.toUpperCase() 
+                                + '    [Subtotal $' + subtotal.toFixed(2) + '] \n'; 
+
+                    }
+                }
+            )
+            message += '\nTOTAL: $' + total.toFixed(2);
+
+            alert (message);
+        } // End of Checkout function
+
+        // Hide the shopping cart, reset the object's quantity attributes 
+        function reset() {
+
+            document.getElementById("cart").style.display = "none";
+            document.getElementById("selected").innerHTML = "";
+            menu3.forEach(
+                (item) => {item.quantity = 0}
+            )
+            
+        } // End of Reset function
+    </script>
+    <hr>
+    <form id="menuForm">
+        <label name="itemLabel">Select your items:</label>
+        <select name="items" id="items"></select>
+        <input id="add" type="button" value="Add to Cart" />
+        <div id="cart">
+            <div><h3>Shopping Cart</h3></div>
+            <div id="selected" class="table">
+                <div class="header">Item</div>
+                <div class="header">Price</div>
+                <div class="header">Quantity</div>
+            </div>
+        </div>
+        
+        <div class="list">
+            <input id="checkout" type="button" value="Check out" />
+            <input id="reset" type="reset" value="Cancel" />
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joe's Hotdogs</title>
+</head>
+<body>
+    <script>
+
+        // Part 1: Associated Array
+        document.write("<hr>");
+        document.write("<h3>Joe's Hotdogs (Associated Array)</h3>");
+        menu1 = {
+            hotdogs: 4,
+            fries: 3.50,
+            soda: 1.50,
+            sauekraut: 1
+        };
+        
+        for (item in menu1) {
+             // item = key, menu1[item] = value
+            show(item, menu1[item]);
+        }
+        
+        // Part 2: Javascript Object (JSON)
+        document.write("<hr>");
+        document.write("<h3>Joe's Hotdogs (JSON)</h3>");
+        
+        menu2 = [
+            {"name": "hotdogs", "price": 4},
+            {"name": "fries", "price": 3.50},
+            {"name":  "soda", "price": 1.50},
+            {"name": "sauekraut", "price": 1}
+        ];
+
+        menu2.forEach(
+            (item) => {
+                show(item.name, item.price);
+            }
+        ); // End of forEach
+     
+        // Part 3: Class
+        document.write("<hr>");
+        document.write("<h3>Joe's Hotdogs (Class)</h3>");
+
+        function Item( name, price) {
+            this.name = name;
+            this.price = price;
+        } // End of Item Class Function
+
+        menu3 = [
+            new Item("hotdogs", 4),
+            new Item("fries", 3.50),
+            new Item("soda", 1.50),
+            new Item("sauerkraut", 1)
+        ]
+
+        menu3.forEach(
+            (item) => {
+                show(item.name, item.price)
+            }
+        )// End of Foreach
+
+        function show(name, price) {
+            document.write("<b>" + name.toUpperCase() + "</b>: $" + price + "<br>");
+        }
+    </script>
+
+    
+</body>
+</html>
