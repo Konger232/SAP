@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Count the Vowel - forEach</title>
+</head>
+<body>
+    <script>
+        str = "The quick brown fox";
+        strArray = str.split('');  // if '', it will split every character
+        //document.write(strArray);
+        
+        count = 0;
+        vowels = "aeiou".split(''); // vowels is an arrray of the vowels
+        strArray.forEach(char => {
+            if (vowels.includes(char)) {
+                count++;
+            }
+        
+        }) // end of forEach function
+ 
+        document.write("The count is " + count);
+    </script>
+</body>
+</html>

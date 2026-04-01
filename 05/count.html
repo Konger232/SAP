@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Count the Vowel</title>
+</head>
+<body>
+    <script>
+        str = "The quick brown fox";
+         
+        // Method 1: Broke it down in mutliple lines
+        // convert join with an empty string, just simply turn each array element back to a string
+        strArray = str.split(' ');   // each word is an element of the array
+        document.write("<ul>");
+        a = strArray.map(word => "<li>" + word + "</li>");
+        document.write(a.join(''));    // convert an array into a string
+        document.write("</ul><hr>");
+
+        // Method 2: One line
+        document.write("<ul>"
+            + str.split(' ').map(word => "<li>" + word + "</li>").join('')
+            + "</ul><hr>"
+        )
+
+        //strArray = str.split('');  // if '', it will split every character
+        //document.write(strArray);
+        
+        count = 0;
+        vowels = "aeiou".split(''); // vowels is an arrray of the vowels
+        for (n=0; n<strArray.length; n++) {
+            
+            char = strArray[n];
+            if (vowels.includes(char)) {
+                count++;
+            }
+        }
+        document.write("The count is " + count);
+    </script>
+</body>
+</html>

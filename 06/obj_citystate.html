@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object City / State</title>
+</head>
+<body>
+    <script>
+        /*
+            Create a JavaScript object using the city / state data 
+            Display cities only using Object.keys() ▪
+            Write a function, findState() to check if a city 
+            is a valid key and if it is, return its state.
+        */
+
+        var cities = 
+        {
+            Boston : "MA",
+            Providence : "RI",
+            Newark : "NJ"
+        }
+
+        justCities = Object.keys(cities);
+        justStates = Object.values(cities);
+        document.write(justCities);
+
+
+        // input is the city 
+        // output is the state for a valid city or false if not
+        function findState( city ) 
+        {
+            if (justCities.includes(city))
+            {
+                //if true, its valid
+                return cities[city];
+            }
+            else 
+            {
+                return false;
+            }
+        }
+
+        document.write("<br>");
+
+        if ((result = findState("Boston")) != false)
+            document.write("The state is " + result)
+        else 
+            document.write("City not found");
+
+        document.write("<br>");
+
+
+        if ((result = findState("Cambridge")) != false)
+            document.write("The state is " + result);
+        else 
+            document.write("City not found ");
+    </script>
+</body>
+</html>

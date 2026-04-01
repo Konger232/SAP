@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class - Flower</title>
+</head>
+<body>
+    <script>
+        /*
+        ▪️Create a class in JavaScript called Flower 
+        ▪️Flower should have two properties: name and price, that are set in the constructor 
+        ▪️Instance three flowers. 
+        ▪️Display the name and price of one of the flower objects.
+        */
+
+        function Flower(name, price) {
+            
+            //Properties
+            this.name = name;
+            this.price = price;
+
+            // Methods
+            this.show = function() {
+                //document.write(this.name + " costs $" + this.price + "<br>");
+                return this.name + " cost $" + this.price;
+            }; // end show method
+            this.increasePrice = function(pct) {
+                this.price = this.price * ( 1 + pct/100);
+            }; // end of increasePrice method
+
+
+        } // end of flower class
+
+        rose = new Flower("rose", 10);
+        sunflower = new Flower("sunflower", 9);
+        tulip = new Flower("tulip", 7);
+        daisy = new Flower("diasy", 12);
+
+        //document.write(rose.name + " costs $" + rose.price);
+        document.write(rose.show() + "<br>");
+        rose.increasePrice(10);
+        document.write(rose.show() + "<br>");
+
+        inventory = [rose, sunflower, tulip, daisy];
+        document.write(inventory[1].show());
+
+        // alterative forEach
+        inventory = [
+            new Flower("rose", 10),
+            new Flower("sunflower", 9),
+            new Flower("daisy", 7)
+        ]
+
+        inventory.forEach(
+            // (f) is the element in the array
+            (f) => (document.write(f.show() + "<br>"))
+        );  
+    </script>
+
+    
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Inline</title>
+</head>
+<body>
+    <script>
+        fido = {
+            name: "Fido",
+            age: 2,
+            breed: "Poodle",
+            vax: ["rabies", "distemper"]
+        };
+
+        document.write(fido.name);
+        document.write(fido.vax[0]);
+
+        document.write("<br>");
+
+        str = JSON.stringify(fido);
+        document.write(str["name"]);
+
+        document.write("<br>");
+
+        obj = JSON.parse(str);
+        document.write(obj["name"])
+    
+    </script>
+
+    
+</body>
+</html>

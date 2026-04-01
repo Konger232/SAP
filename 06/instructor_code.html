@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        // object literal
+        food = {
+            hotdog: 5,
+            fries: 3,
+            soda: 2
+        }
+
+        // associative array
+        food2['hotdog'] = 5
+        food2['fries'] = 3
+        food2['soda'] = 2
+
+        for (item in food2) {
+            document.write(item + " : $" + food2[item])
+        }
+
+        // class
+        function Food3(item, cost) {
+            this.item = item
+            this.cost = cost
+            this.show = () =>  // return a string
+                this.item + " : $" + this.cost;
+        }
+
+        food3 = [
+            new Food3('hotdog', 5),
+            new Food3('fries', 3),
+            new Food3('hotdog', 2)
+        ]
+
+        // items and costs arguments must be paralell arrays to describe the items
+        function Menu(items, costs)
+        {
+            this.items = []
+            for (i=0; i<items.length; i++)
+            {
+                this.MenuItems.push(new Food3(items[i], costs[i]))
+            }
+
+            this.displayMenu = function() {
+                this.menuItems.forEach(element => {
+                    document.write(element.show())
+                });
+            } // end displayMenu
+        }
+
+        joesMenu = new Menu(['hotdog', 'fries'], [5, 3]);
+        joesMenu.displayMenu()
+
+        
+    </script>
+</body>
+</html>

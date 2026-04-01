@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event</title>
+    <script>
+        window.onload = function() {
+            // associate the function to the button click upon page is fully loaded
+            btn = document.getElementById("button2");
+            //btn.onclick = doSomething2;      // Preferred method 
+            btn.addEventListener("click", doSomething3);
+
+        } // end window.onload
+
+        // Tag
+        function doSomething1() {
+            result = document.getElementById("result");
+            result.innerText = "Called with doSomething1";
+        }
+
+        function doSomething2() {
+            result = document.getElementById("result");
+            result.innerText = "Called with doSomething2";
+        }
+
+        function doSomething3() {
+            result = document.getElementById("result");
+            result.innerText = "Called with doSomething3";
+        }
+
+    </script>
+</head>
+<body>
+    <!-- <input type="button" value="Press me" onclick="doSomething1()" /> -->
+    <input type="button" id ="button2" value="Press me 2" />
+     
+    <div id="result"><!-- Placeholder --></div>
+</body>
+</html>

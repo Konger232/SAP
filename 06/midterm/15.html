@@ -1,0 +1,82 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mid term 15</title>
+    
+</head>
+<body>
+
+    <div id="student_report"></div>
+
+
+<script>
+
+    // create a class 
+    function Student(name, grades=[]) {
+        this.name = name    
+        this.grades = grades // array
+
+        // sum of grades / grades.length
+        this.getAverage = () => {
+            sum = this.grades.reduce (
+                (accumulator, currentValue) => accumulator + currentValue
+            )
+            average = sum / this.grades.length, 2
+            return average.toFixed(2)
+        }
+
+        this.show = function() {
+            return "This student, " + this.name + ", has a grade average of: " + this.getAverage() + "<br>"
+        }
+    }
+
+    kai = [63, 77, 49, 87, 76]
+    gia = [94, 78, 88, 62]
+    jo = [86, 98, 70, 100, 87]
+
+    
+
+    students = [
+        new Student("Kai", kai),
+        new Student("Gia", gia),
+        new Student("Jo", jo)              
+    ]
+
+    students.forEach(
+        (s) => (
+            document.getElementById("student_report").innerHTML 
+            += s.show()
+        )   
+    ) // end of forEach
+
+    allGrades = [...kai, ...gia, ...jo]
+
+    minGrade = allGrades.reduce(
+        (accumulator, currentValue) => {
+            return Math.min(accumulator, currentValue)
+        }
+    )
+    
+    sumGrade = allGrades.reduce(
+        (accumulator, currentValue) => accumulator + currentValue
+    )
+
+
+    numGrade = kai.length + gia.length + jo.length
+    aveGrade = sumGrade / numGrade
+
+    document.getElementById("student_report").innerHTML 
+            += "All Grades :" + allGrades + "<br>"
+
+     document.getElementById("student_report").innerHTML 
+            += "Min Grade :" + minGrade + "<br>"   
+
+                 document.getElementById("student_report").innerHTML 
+            += "Min Grade :" + aveGrade.toFixed(2) + "<br>"  
+
+</script>
+
+</body>
+</html>

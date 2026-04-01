@@ -1,0 +1,6 @@
+{
+    "name": "Fido",
+    "age": 2,
+    "breed": "Poodle",
+    "vax": ["rabies", "distemper"]
+}

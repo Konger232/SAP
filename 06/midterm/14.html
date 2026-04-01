@@ -1,0 +1,52 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mid term 14</title>
+    
+</head>
+<body>
+
+    <div id="student_report"></div>
+
+
+<script>
+ 
+    // create a class 
+    function Student(name, grades=[]) {
+        this.name = name    
+        this.grades = grades // array
+
+        // sum of grades / grades.length
+        this.getAverage = () => {
+            sum = this.grades.reduce (
+                (accumulator, currentValue) => accumulator + currentValue
+            )
+            average = sum / this.grades.length, 2
+            return average.toFixed(2)
+        }
+
+        this.show = function() {
+            return "This student, " + this.name + ", has a grade average of: " + this.getAverage() + "<br>"
+        }
+    }
+
+
+    students = [
+        new Student("Jane", [90, 78, 88]),
+        new Student("Bill", [92, 62, 55]),
+        new Student("Edward", [99, 95, 97])              
+    ]
+
+    students.forEach(
+        (s) => (
+            document.getElementById("student_report").innerHTML 
+            += s.show()
+        )   
+    ) // end of forEach
+
+    </script>
+
+</body>
+</html>

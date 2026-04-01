@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Count the Vowel - map</title>
+</head>
+<body>
+    <script>
+        str = "The quick brown fox";
+        strArray = str.split('');  // if '', it will split every character
+        
+        count = 0;
+        vowels = "aeiou".split(''); // vowels is an arrray of the vowels
+        modArray = strArray.map(char => {
+            if (vowels.includes(char)) {
+                count++;
+                return "*";
+            } else {
+                return char;
+            }
+        
+        }) // end of map function
+ 
+        document.write("The count is " + count + "<br/>");
+        document.write(modArray.join(''));
+    </script>
+</body>
+</html>

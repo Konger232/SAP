@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Associative Array</title>
+    <script>
+
+        var cities = [];
+        cities["Boston"] = "MA";
+        cities["Portsmouth"] = "NM";
+        cities["Providence"] = "RI";        
+
+        // Method 1
+        for (city in cities) {
+            document.write(city + "<br/>");
+        }
+        
+        document.write("<hr />");
+
+        // Method 2 : Object.keys returns an array already
+        allkeys = Object.keys(cities);  
+        document.write(allkeys.join("<br/>"));
+
+        states = {
+            "MA" : "Massachusetts",
+            "NH" : "New Hampshire"
+        }
+
+        document.write(states.MA);
+        
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

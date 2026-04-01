@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let numbers = Array(1, 2);
+
+        for (let i=0; i<7; i++) {
+            new_number = numbers[i] + numbers[i+1];
+            numbers.push(new_number);
+        }
+
+        window.onload = function () {
+            newList = document.createElement("ul");
+            root = document.body;
+            root.appendChild(newList);
+
+            for(let i=0; i<7; i++) {
+                newItem = document.createElement("li");
+                newItem.innerHTML = numbers[i];
+                newList.appendChild(newItem);
+            }       
+
+        }
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
