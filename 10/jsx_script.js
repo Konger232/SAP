@@ -13,11 +13,8 @@
     // hardcoded guesses
     let fakedGuesses = ["MIGHT", "FLOOD", "STRAY"];
 
-    // Roots
-    const boardRoot = ReactDOM.createRoot(document.getElementById("board"));
-    const keyboardRoot = ReactDOM.createRoot(document.getElementById("keyboard"));
-    const noteRoot = ReactDOM.createRoot(document.getElementById("note"));
-    const resetBtnRoot = ReactDOM.createRoot(document.getElementById("btnDiv"));
+    // Consolidate to one single root
+    let appRoot;
 
     // Global Vars
     let gameOver = false;
@@ -26,20 +23,26 @@
     let currentX = fakedGuesses.length;
     let currentY = 0;
     let keyStatus = {}; // keyStatus['A'] = "incorrect"
+    let message = "";
 
     window.onload = function() {
 
+        appRoot = ReactDOM.createRoot(document.getElementById("main"));
+
         //Answer is now hardcoded : MOODY
         //getRandomWord();
+
+        // Prepare the boardData and render the main App component
         initBoard();
+        reloadApp();
 
         // update board and status based on the hard coded guesses
-        for (i=0; i<fakedGuesses.length; i++) {
-            guess = fakedGuesses[i];
-            statuses = evalGuess(guess);
+        for (let i=0; i<fakedGuesses.length; i++) {
+            let guess = fakedGuesses[i];
+            let statuses = evalGuess(guess);
 
             // update the status
-            for (j=0; j<wordLength; j++) {
+            for (let j=0; j<wordLength; j++) {
                 boardData[i][j].char = guess[j];
                 boardData[i][j].status = statuses[j];
             }
@@ -47,74 +50,113 @@
             // color the keys
             updateKeyboard(guess, statuses);
         }
-
-        // Render the board, keyboard and reset button
-        reloadBoard();
-        reloadKeyboard();
-        resetBtnRoot.render(setupResetButton());
-
     } // end window.onload
 
-    // Components - MUST RETURN 
-    function Tile({status, char}) {
-        return React.createElement(
-            "div",
-            {className:"tile " + status},
-            char
-        );
+    // COMPONENTS - MUST RETURN AN OBJECT
+
+    // function Tile({status, char}) {
+    //     return React.createElement(
+    //         "div",
+    //         {className:"tile " + status},
+    //         char
+    //     );
+    // }
+
+    function App() {
+        return <div id="container">
+            <Board boardData={boardData} />
+            <Keyboard />
+            <NoteMessage message={message}/>
+            <ResetGame />
+        </div>
     }
+
+    // Helper function to render the main App (THE root)
+    function reloadApp() {
+        appRoot.render(<App />);
+    }
+
+    function Tile({status, char}) {
+        return <div className={"tile " + status}>{char}</div>;
+    }
+
+    // function TileRow({tiles}) {
+    //     return React.createElement(
+    //         "div",
+    //         {className: "rowStyle"},
+    //         tiles.map((tileData, idx) =>
+    //             React.createElement(
+    //                 Tile,
+    //                 {key: idx, status:tileData.status, char:tileData.char},
+    //                 null
+    //             )
+    //         ) // end of map
+    //     ); // end of row create
+    // }
 
     function TileRow({tiles}) {
-        return React.createElement(
-            "div",
-            {className: "rowStyle"},
+        return <div className="rowStyle">{
             tiles.map((tileData, idx) =>
-                React.createElement(
-                    Tile,
-                    {key: idx, status:tileData.status, char:tileData.char},
-                    null
-                )
-            ) // end of map
-        ); // end of row create
+                <Tile 
+                    key={idx} 
+                    status={tileData.status}
+                    char={tileData.char}
+                />
+            )
+        }</div>
     }
 
-    function Board ({boardData}) {
-        return React.createElement(
-                    "div",
-                    {className: "board"},
-                    boardData.map((rowData, i) =>
-                        React.createElement(
-                            TileRow,
-                            {key: i, tiles:rowData}
-                        ) // end of row create
-                    ) 
-                ); // end of return createElement outter div
+    // function Board ({boardData}) {
+    //     return React.createElement(
+    //                 "div",
+    //                 {className: "board"},
+    //                 boardData.map((rowData, i) =>
+    //                     React.createElement(
+    //                         TileRow,
+    //                         {key: i, tiles:rowData}
+    //                     ) // end of row create
+    //                 ) 
+    //             ); // end of return createElement outter div
+    // }
+
+    function Board({boardData}) {
+        return <div className="board">{
+            boardData.map((rowData, i) =>
+                <TileRow 
+                    key={i}
+                    tiles={rowData}
+                />
+            )
+        }</div>
     }
 
-    // Initialize board data 
+    // Prepare the board data 
     function initBoard() {
         // reset boardData
         boardData = [];
-        for (i=0; i<maxRows; i++) {
-            row = [];
-            for (j=0; j<wordLength; j++) {
+        for (let i=0; i<maxRows; i++) {
+            let row = [];
+            for (let j=0; j<wordLength; j++) {
                 row.push({char: "", status: "empty"});
             }
             boardData.push(row);
         }
     }
 
-    function reloadBoard() {
-        boardRoot.render(React.createElement(Board, {boardData: boardData}));
-    }
+    // function ButtonKey ({char, status}) {
+    //     return React.createElement(
+    //         "button",
+    //         {className: "key " + status, onClick:()=> handleKeyClick(char)},
+    //         char
+    //     );
+    // }
 
     function ButtonKey ({char, status}) {
-        return React.createElement(
-            "button",
-            {className: "key " + status, onClick:()=> handleKeyClick(char)},
-            char
-        );
+        return (<button className={"key " + status} onClick={() => handleKeyClick(char)}>
+            {char}
+            </button>);
     }
+
 
     function Keyboard() {
         const keyboardLayout = [
@@ -134,8 +176,7 @@
                     row.map(
                         (char, idx) => React.createElement(
                             ButtonKey,
-                            // Append class names of the key, status or not
-                            {key: idx, char: char, status: keyStatus[char] || ""}
+                            {key: idx, char: char, status: keyStatus[char] || ""} // Append class names of the key, status or not
                         )
                     ) // end of create individual key button 
                 )// end of create keyboard row
@@ -143,16 +184,23 @@
         ); // end of keybaord outter div (root)
     }
 
-    function reloadKeyboard() {
-        keyboardRoot.render(React.createElement(Keyboard));
+    function NoteMessage({message}) {
+        return (<p className="note">{message}</p>);
+    } 
+
+    function ResetGame() {
+        return (
+            <button className="resetBtn" onClick = {() => resetGame()}>Play Again</button>
+        );
     }
+
 
     // Update each key to reflect its status 
     function updateKeyboard(guess, statuses) {
         if (DEBUG) {console.log("Update Keyboard : Status " + statuses)}
         
         // update keyStatus
-        for (j=0; j<wordLength; j++) {
+        for (let j=0; j<wordLength; j++) {
             let char = guess[j];
             let status = statuses[j];
 
@@ -162,17 +210,9 @@
             keyStatus[char] = status;
         }
 
-        // re-render the keyboard
-        reloadKeyboard();
+        // Re-render
+        reloadApp();
 
-    }
-
-    function setupResetButton() {
-        return React.createElement(
-            "button", 
-            {className:"resetBtn", onClick: ()=> resetGame()},
-            "Play Again"
-        );
     }
 
     function handleKeyClick(key) {
@@ -193,14 +233,12 @@
         gameOver = false;
         answer = words[Math.floor(Math.random() * words.length)]; // pick another word
         //clear the note
-        showNote("");
+        message = "";
 
         // reset data
         initBoard();
-        // re-render board
-        reloadBoard();
-        // re-render keyboard
-        reloadKeyboard();
+        // Re-render
+        reloadApp();
         getRandomWord();
     
     }
@@ -214,17 +252,18 @@
             return;
 
         // clear note on every new submit
-        showNote("");
+        message = "";
 
         // if enter is clicked with fewer than 5 letters typed
         if (currentY < wordLength) {
-            showNote("No enough letters!");
+            message = "No enough letters!";
+            reloadApp();
             return;
         }
 
         // Get the current guess word
         let guess = "";
-        for (j=0; j<wordLength; j++) {
+        for (let j=0; j<wordLength; j++) {
             guess += boardData[currentX][j].char;
         }
 
@@ -240,16 +279,17 @@
             updateKeyboard(guess, statuses);
             
             // update data
-            for (j=0; j<wordLength; j++) {
+            for (let j=0; j<wordLength; j++) {
                 boardData[currentX][j].status = statuses[j];
             }
             
-            // re-render the board
-            reloadBoard();
+            // Re-render
+            reloadApp();
 
             if (guess === answer) {
-                showNote("YOU WIN!");
+                message = "YOU WIN!";
                 gameOver = true;
+                reloadApp();
                 return;
             }
 
@@ -274,7 +314,7 @@
         let result = ["incorrect", "incorrect", "incorrect", "incorrect", "incorrect"];
 
         // Case 1: Perfect match (letter and index)
-        for (j=0; j<wordLength; j++) {
+        for (let j=0; j<wordLength; j++) {
             if (guessChars[j] === answerChars[j]) {
                 result[j] = "correct";
                 // set it to null to check again in the next loop
@@ -284,7 +324,7 @@
         }
 
         // Case 2: Correct letter but wrong index
-        for (j=0; j<wordLength; j++) {
+        for (let j=0; j<wordLength; j++) {
 
             if (guessChars[j] !== null) {
                 // search for letter in the answer word
@@ -306,8 +346,8 @@
         if (currentY > 0) {
             currentY--; // move to the one behind
             boardData[currentX][currentY].char = ""; // clear the current tile
-            // re-render the board
-            reloadBoard();
+            // Re-render
+            reloadApp();
         }
         
     } 
@@ -319,8 +359,8 @@
         if (currentX < maxRows && currentY < wordLength) {
             boardData[currentX][currentY].char = key;
             currentY++; // move to the next column
-            // re-render the board
-            reloadBoard();
+            // Re-render
+            reloadApp();
             
         }
     }
@@ -335,8 +375,8 @@
                 if (res.status === 200) {
                     return res.json();
                 } else {
-
-                    showNote(word + " is not a valid word");
+                    message = word + " is not a valid word";
+                    reloadApp();
                     return false;
                 }
                 
@@ -345,16 +385,17 @@
                 if (data === false ) return false;
                 if (DEBUG) console.log("checkDictionary JSON API: ", data)
                 
-                message = word 
-                            + "<br><b>" + data[0].meanings[0].partOfSpeech + "</b><br>"
+                message = word + " " + 
+                            + data[0].meanings[0].partOfSpeech 
                             + data[0].meanings[0].definitions[0].definition;
-                showNote(message);
                 
+                reloadApp();
                 return true;
             })
             .catch(error => {
                 
-                showNote(word + " is not a valid word.");
+                message = word + " is not a valid word.";
+                reloadApp();
                 return false;
             }); // end of catch
 
@@ -380,8 +421,3 @@
         })
     }
 
-    function showNote(message) {
-        noteRoot.render(
-            React.createElement("p", {className:"note"}, message)
-        );
-    }
